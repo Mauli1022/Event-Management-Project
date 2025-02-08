@@ -30,7 +30,11 @@ export const createEvent = async (req, res) => {
         });
 
         await newEvent.save();
-        res.status(201).json({ message: 'Event created successfully', event: newEvent });
+        res.status(201).json({
+          success : true,
+          message: 'Event created successfully', 
+          event: newEvent 
+        });
     } catch (error) {
         console.error("Create Event Controller : ", error)
         res.status(500).json({ message: 'Error creating event'});
@@ -49,7 +53,6 @@ export const deleteEvent = async (req, res) => {
           success: false,
           message : "Event Not Get deleted"
         });
-    
       }
   
       res.status(200).json({
