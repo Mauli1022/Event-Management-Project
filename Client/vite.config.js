@@ -4,6 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  theme: {
+    extend: {
+      fontFamily: {
+        spaceGrotesk: ['Space Grotesk', 'sans-serif'],
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss()

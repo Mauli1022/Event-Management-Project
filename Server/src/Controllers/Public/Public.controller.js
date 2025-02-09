@@ -22,14 +22,12 @@ export const getSingleEvent = async (req, res) => {
 
   try {
     const { id } = req.params;
-
     const singleEvent = await Event.findById(id);
 
     res.status(200).json({
       success: true,
       singleEvent,
     });
-
 
   } catch (error) {
 
