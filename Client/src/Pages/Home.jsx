@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(fetchEventsAdmin())
-    // console.log( "Home Page",events );
+    console.log( "Home Page",events );
   }, [dispatch]);
 
   return (

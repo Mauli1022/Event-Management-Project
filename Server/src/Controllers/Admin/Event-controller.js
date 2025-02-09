@@ -7,6 +7,8 @@ export const createEvent = async (req, res) => {
   const { title, description, date, location, category } = req.body;
   try {
 
+    console.log("Category From Backend", category);
+    
     let imageUrl = ""
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {

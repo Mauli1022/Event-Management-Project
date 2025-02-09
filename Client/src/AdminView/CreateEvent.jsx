@@ -13,6 +13,7 @@ export default function CreateEvent() {
     date: "",
     location: "",
     image: null,
+    category : ""
   }
   const [formData, setFormData] = useState(initialState);
   const fileInputRef = useRef(null);
@@ -39,12 +40,15 @@ export default function CreateEvent() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(formData);
+    
     const formDataWithFile = new FormData()
     formDataWithFile.append("title", formData.title);
     formDataWithFile.append("description", formData.description);
     formDataWithFile.append("date", formData.date);
     formDataWithFile.append("location", formData.location);
     formDataWithFile.append("image", formData.image);
+    formDataWithFile.append("category", formData.category);
 
     dispatch(createNewEvent(formDataWithFile))
       .then((data) => {
