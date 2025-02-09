@@ -1,7 +1,7 @@
 
 # TechVista - Event Management Platform
 
-TechVista is a full-stack event management platform designed to help users create, manage, and view events seamlessly. The platform offers user authentication, event creation and management tools, and real-time updates for attendees. Built with modern web technologies and deployed on free-tier hosting services, TechVista provides a user-friendly experience for both event organizers and attendees.
+TechVista is a full-stack event management platform designed to help users create, manage, and view events seamlessly. The platform offers user authentication, event creation and management tools. TechVista provides a user-friendly experience for both event organizers and attendees.
 
 
 ## Key Features
