@@ -4,14 +4,14 @@ import axios from "axios";
 const initialState = {
     isAuthenticated: false,
     isLoading: true,
-    user: null,
+    user: JSON.parse(sessionStorage.getItem("user")) || null,
     token: null
 }
 
 export const registerUser = createAsyncThunk('/register',
     async (formData, { rejectWithValue }) => {
         try {
-            const response = await axios.post(" http://localhost:5000/api/user/register", formData)
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/register`, formData)
             return response.data
         } catch (error) {
             // console.log("Register API Error:", error.response?.data || error.message); // Debugging
@@ -25,7 +25,7 @@ export const loginUser = createAsyncThunk('/login',
     async (formData, { rejectWithValue }) => {
 
         try {
-            const response = await axios.post(" http://localhost:5000/api/user/login", formData)
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/user/login`, formData)
             return response.data
 
         } catch (error) {
@@ -63,6 +63,7 @@ const authSlice = createSlice({
             }).addCase(loginUser.fulfilled, (state, action) => {
             if (action.payload?.success) {
                 sessionStorage.setItem('authToken',action?.payload?.token);
+                sessionStorage.setItem('user', JSON.stringify(action?.payload?.user));
                 state.user = action?.payload?.user;
                 state.isLoading = false
             } else {

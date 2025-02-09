@@ -11,7 +11,7 @@ const initialState = {
 export const fetchEventsAdmin = createAsyncThunk("/public/fetchEvents",
     async()=>{
         try {
-            const response = await axios.get("http://localhost:5000/api/public/get-all-event")
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/get-all-event`)
             return response.data;
         } catch (error) {
             console.error(error.message);
@@ -22,7 +22,7 @@ export const fetchEventsAdmin = createAsyncThunk("/public/fetchEvents",
 export const fetchSingleEvent = createAsyncThunk("/admin/singleEvent",
     async(id)=>{
         try {
-            const response = await axios.get(`http://localhost:5000/api/public/single-event/${id}`)
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/public/single-event/${id}`)
             return response.data;
         } catch (error) {
             console.error(error.message);
@@ -34,7 +34,7 @@ export const fetchEventsWithFilterValue = createAsyncThunk(
     "/public/fetchEventsWithFilterValue",
     async({ category, date }, { rejectWithValue })=>{
         try { 
-            let url = "http://localhost:5000/api/public/filter";
+            let url = `${import.meta.env.VITE_API_URL}/api/public/filter`;
             let queryParams = [];
       
             if (category) queryParams.push(`category=${category}`);
@@ -97,6 +97,5 @@ const publicSlice = createSlice({
             state.events = []
         })
     }
-
 })
 export default publicSlice.reducer;

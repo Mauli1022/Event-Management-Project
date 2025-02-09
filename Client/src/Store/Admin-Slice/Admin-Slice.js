@@ -15,7 +15,7 @@ export const createNewEvent = createAsyncThunk(
             if (!token) {
                 return rejectWithValue({ message: "No authentication token found!" });
             }
-            const response = await axios.post(" http://localhost:5000/api/admin/create",
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/create`,
                 eventData, {
                 headers: {
                     Authorization: `Bearer ${token}`
