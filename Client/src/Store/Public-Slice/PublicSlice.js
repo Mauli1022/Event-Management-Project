@@ -8,7 +8,7 @@ const initialState = {
     singleEvent : null
 };
 
-export const fetchEventsAdmin = createAsyncThunk("/admin/fetchEvents",
+export const fetchEventsAdmin = createAsyncThunk("/public/fetchEvents",
     async()=>{
         try {
             const response = await axios.get("http://localhost:5000/api/public/get-all-event")
@@ -21,8 +21,6 @@ export const fetchEventsAdmin = createAsyncThunk("/admin/fetchEvents",
 
 export const fetchSingleEvent = createAsyncThunk("/admin/singleEvent",
     async(id)=>{
-        console.log("Async Thunk: ",id);
-        
         try {
             const response = await axios.get(`http://localhost:5000/api/public/single-event/${id}`)
             return response.data;
@@ -32,6 +30,26 @@ export const fetchSingleEvent = createAsyncThunk("/admin/singleEvent",
     }
 )
 
+export const fetchEventsWithFilterValue = createAsyncThunk(
+    "/public/fetchEventsWithFilterValue",
+    async({ category, date }, { rejectWithValue })=>{
+        try { 
+            let url = "http://localhost:5000/api/public/filter";
+            let queryParams = [];
+      
+            if (category) queryParams.push(`category=${category}`);
+            if (date) queryParams.push(`date=${date}`);
+      
+            if (queryParams.length > 0) {
+              url += `?${queryParams.join("&")}`;
+            }
+            const response = await axios.get(url);
+            return response.data;
+          } catch (error) {
+            return rejectWithValue(error.response?.data || "Error fetching events");
+          }
+    }
+)
 
 const publicSlice = createSlice({
     name: "public",
@@ -54,8 +72,6 @@ const publicSlice = createSlice({
         .addCase(fetchSingleEvent.pending,(state)=>{
             state.isLoading = true
         }).addCase(fetchSingleEvent.fulfilled,(state,action)=>{
-            console.log(action?.payload);
-
             if (action?.payload?.success) {
                 state.isLoading = false;
                 state.singleEvent = action?.payload?.singleEvent
@@ -65,6 +81,20 @@ const publicSlice = createSlice({
             
             state.isLoading = false
             state.singleEvent = null
+        })// -----------------------------Fetch Events Basd On Filter-----------------------
+        .addCase(fetchEventsWithFilterValue.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(fetchEventsWithFilterValue.fulfilled,(state,action)=>{
+            // console.log("Async Thunk",action?.payload?.success);
+            if (action?.payload?.success) {
+                state.isLoading = false,
+                state.events = action?.payload?.events
+            }
+        })
+        .addCase(fetchEventsWithFilterValue.rejected,(state,action)=>{
+            state.isLoading = false
+            state.events = []
         })
     }
 

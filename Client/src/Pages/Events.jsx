@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 
 // Async Thunk
-import { fetchEventsAdmin } from "../Store/Public-Slice/PublicSlice.js"
+import { fetchEventsAdmin, fetchEventsWithFilterValue } from "../Store/Public-Slice/PublicSlice.js"
 
 export default function Events() {
   // const [events, setEvents] = useState([]);
@@ -11,11 +11,17 @@ export default function Events() {
   const dispatch = useDispatch();
   const { events } = useSelector(state => state.public)
 
-  useEffect(() => {
-    dispatch(fetchEventsAdmin())
-    console.log(events);
+  const [category, setCategory] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchEventsAdmin())
+  //   console.log(events);
+  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchEventsWithFilterValue({ category, date: selectedDate }))
+  }, [category, selectedDate, dispatch])
 
 
   return (
@@ -31,17 +37,16 @@ export default function Events() {
               Category:
             </label>
             <select
-              // id="category"
-              // value={category}
-              // onChange={(e) => setCategory(e.target.value)}
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               className="bg-gray-800 text-white px-4 py-2 rounded-md focus:ring focus:ring-yellow-400"
             >
               <option value="">All Categories</option>
-              <option value="Technology">Technology</option>
-              <option value="Business">Business</option>
-              <option value="Education">Education</option>
-              <option value="Health">Health</option>
-              <option value="Entertainment">Entertainment</option>
+              <option value="conference">Conference</option>
+              <option value="workshop">Workshop</option>
+              <option value="webinar">Webinar</option>
+              <option value="meetup">Meetup</option>
             </select>
           </div>
 
@@ -53,8 +58,8 @@ export default function Events() {
             <input
               type="date"
               id="date"
-              // value={selectedDate}
-              // onChange={(e) => setSelectedDate(e.target.value)}
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
               className="bg-gray-800 text-white px-4 py-2 rounded-md focus:ring focus:ring-yellow-400"
             />
           </div>
